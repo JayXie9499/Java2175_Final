@@ -12,7 +12,7 @@ public class Database {
             final Connection conn = getConnection();
             final Statement stmt = conn.createStatement();
             stmt.executeUpdate("""
-                    CREATE TABLE banks IF NOT EXISTS (
+                    CREATE TABLE IF NOT EXISTS banks (
                         id TEXT UNIQUE NOT NULL,
                         name TEXT UNIQUE NOT NULL,
                         transferFee REAL NOT NULL,
@@ -20,7 +20,7 @@ public class Database {
                     );
                     """);
             stmt.executeUpdate("""
-                    CREATE TABLE accounts IF NOT EXISTS (
+                    CREATE TABLE IF NOT EXISTS accounts (
                         id TEXT UNIQUE NOT NULL,
                         name TEXT NOT NULL,
                         hashedPwd TEXT NOT NULL,
