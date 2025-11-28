@@ -24,7 +24,6 @@ public class Database {
                         id TEXT UNIQUE NOT NULL,
                         name TEXT NOT NULL,
                         hashedPwd TEXT NOT NULL,
-                        role INTEGER DEFAULT 1,
                         balance INTEGER DEFAULT 0,
                         bankId TEXT NOT NULL,
                     
