@@ -1,26 +1,29 @@
 package com.mybank.model;
 
 public class Account {
-    public enum Role {
-        Admin,
-        User
+    public final String name;
+    public final String id;
+    public final String bankId;
+    public final String hashedPwd;
+    private int balance;
+
+    private Account(String name, String id, String bankId, String hashedPwd) {
+        this.name = name;
+        this.id = id;
+        this.bankId = bankId;
+        this.hashedPwd = hashedPwd;
     }
-    protected int money;
-    protected String name;
-    protected String id;
-    public Role role;
-    public void deposit(int m){
-        money+=m;
+
+    public int getBalance(){
+        return balance;
     }
-    public int getMoney(){
-        return money;
-    }
+
     public void withdraw(int m){
-        if(money<m){
+        if(balance<m){
             System.out.println("Invalid input");
         }
         else{
-            money-=m;
+            balance-=m;
         }
     }
 }
