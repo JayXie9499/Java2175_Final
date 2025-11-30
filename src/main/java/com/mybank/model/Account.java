@@ -49,10 +49,9 @@ public class Account {
         try {
             final Connection conn = Database.getConnection();
             final Statement stmt = conn.createStatement();
-            final String hashedPwd = hashPassword(pwd);
             stmt.executeUpdate(String.format("""
                     INSERT INTO accounts (name, id, bankId, hashedPwd)
-                    VALUES ('%s', '%s', '%s', '%s')
+                    VALUES ('%s', '%s', '%s', '%s');
                     """, name, id, bankId, hashedPwd));
             stmt.close();
             conn.close();

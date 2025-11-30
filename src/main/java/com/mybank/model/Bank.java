@@ -47,7 +47,7 @@ public class Bank {
             final Statement stmt = conn.createStatement();
             stmt.executeUpdate(String.format("""
                     INSERT INTO banks (name, id, transferFee, exchangeFee)
-                    VALUES ('%s', '%s', %f, %f)
+                    VALUES ('%s', '%s', %f, %f);
                     """, name, id, transferFee, exchangeFee));
             stmt.close();
             conn.close();
