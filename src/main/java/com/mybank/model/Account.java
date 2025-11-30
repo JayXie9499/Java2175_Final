@@ -80,7 +80,7 @@ public class Account {
             final String[] parts = hashedPwd.split(":");
             final byte[] salt = Base64.getDecoder().decode(parts[0]);
             final byte[] hash = Base64.getDecoder().decode(parts[1]);
-            final PBEKeySpec spec = new PBEKeySpec(pwd.toCharArray(), salt, 65535, 256);
+            final PBEKeySpec spec = new PBEKeySpec(pwd.toCharArray(), salt, 65536, 256);
             final SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
             final byte[] computedHash = factory.generateSecret(spec).getEncoded();
             return MessageDigest.isEqual(hash, computedHash);
