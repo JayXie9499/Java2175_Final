@@ -23,7 +23,63 @@ public class Main {
 
         while (true) {
             if (is_admin) {
-                //
+                while(is_admin){
+                    System.out.println("1.創建銀行");
+                    System.out.println("2.設定換匯費率");
+                    System.out.println("3.設定轉帳費率");
+                    System.out.println("4.設定帳戶金額");
+                    System.out.println("5.登出\n");
+                    System.out.print("請輸入操作模式: ");
+                    final int active = scanner.nextInt();
+                    if(active<1 || active > 5){
+                        System.out.println("無效的選擇");
+                        continue;
+                    }
+                    switch (active){
+                        case 1:
+                            System.out.print("請註冊銀行ID: ");
+                            final String bankID = scanner.next();
+                            if(banks.stream().anyMatch(bank -> bankID.equals(bank.id))){
+                                System.out.println("此ID已有銀行註冊");
+                                continue;
+                            }
+                            System.out.print("請註冊銀行名稱: ");
+                            final String bankName = scanner.next();
+                            if(banks.stream().anyMatch(bank -> bankName.equals(bank.name))){
+                                System.out.println("此名稱已有銀行註冊");
+                                continue;
+                            }
+                            System.out.print("請輸入轉帳費率: ");
+                            final float transferFee = scanner.nextFloat();
+                            System.out.print("請輸入換匯費率: ");
+                            final float exchangeFee = scanner.nextFloat();
+                            final Bank newbank = Bank.createBank(bankName,bankID,transferFee,exchangeFee);
+                            if(newbank == null){
+                                System.out.println("創建失敗");
+                                continue;
+                            }
+                            banks.add(newbank);
+                            break;
+                        case 2:
+                            for (final Bank bank : banks) {
+                                System.out.printf("(%s) %s\n", bank.id, bank.name);
+                            }
+                            System.out.print("請選擇銀行: ");
+                            final String bankId = scanner.next();
+                            if (banks.stream().noneMatch(bank -> bankId.equals(bank.id))) {
+                                System.out.println("無效的選擇。");
+                                continue;
+                            }
+                            break;
+                        case 3:
+                            break;
+                        case 4:
+                            break;
+                        case 5:
+                            is_admin = false;
+                            break;
+                    }
+                }
             } else if (account == null) {
                 entryMenu();
             }

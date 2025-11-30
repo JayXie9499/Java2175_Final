@@ -52,7 +52,7 @@ public class Account {
             final String hashedPwd = hashPassword(pwd);
             stmt.executeUpdate(String.format("""
                     INSERT INTO accounts (name, id, bankId, hashedPwd)
-                    VALUES (%s, %s, %s, %s)
+                    VALUES ('%s', '%s', '%s', '%s')
                     """, name, id, bankId, hashedPwd));
             stmt.close();
             conn.close();

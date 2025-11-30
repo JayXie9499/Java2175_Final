@@ -41,6 +41,24 @@ public class Bank {
         this.exchangeFee = exchangeFee;
     }
 
+    public static Bank createBank(String name, String id, double transferFee, double exchangeFee) {
+        try {
+            final Connection conn = Database.getConnection();
+            final Statement stmt = conn.createStatement();
+            stmt.executeUpdate(String.format("""
+                    INSERT INTO banks (name, id, transferFee, exchangeFee)
+                    VALUES ('%s', '%s', %f, %f)
+                    """, name, id, transferFee, exchangeFee));
+            stmt.close();
+            conn.close();
+
+            return new Bank(name,id,transferFee,exchangeFee);
+        }
+        catch (Exception e){
+            e.printStackTrace(System.err);
+            return null;
+        }
+    }
     public void setTransferFee(double newFee) {
         this.transferFee = newFee;
     }
