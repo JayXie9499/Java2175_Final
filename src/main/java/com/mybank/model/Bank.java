@@ -59,12 +59,44 @@ public class Bank {
         this.exchangeFee = exchangeFee;
     }
 
-    public void setTransferFee(double newFee) {
-        this.transferFee = newFee;
+    public boolean setTransferFee(double newFee) {
+        try {
+            final Connection conn = Database.getConnection();
+            final PreparedStatement stmt = conn.prepareStatement("""
+                    UPDATE banks
+                    SET transferFee = ?
+                    WHERE id = ?;
+                    """);
+            stmt.setDouble(1, newFee);
+            stmt.setString(2, id);
+            this.transferFee = newFee;
+            stmt.close();
+            conn.close();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+            return false;
+        }
     }
 
-    public void setExchangeFee(double newFee) {
-        this.exchangeFee = newFee;
+    public boolean setExchangeFee(double newFee) {
+        try {
+            final Connection conn = Database.getConnection();
+            final PreparedStatement stmt = conn.prepareStatement("""
+                    UPDATE banks
+                    SET exchangeFee = ?
+                    WHERE id = ?;
+                    """);
+            stmt.setDouble(1, newFee);
+            stmt.setString(2, id);
+            this.exchangeFee = newFee;
+            stmt.close();
+            conn.close();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+            return false;
+        }
     }
 
     public double getTransferFee() {
