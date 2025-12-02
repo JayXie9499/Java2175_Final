@@ -31,13 +31,6 @@ public class Bank {
         return banks;
     }
 
-    public Bank(String name, String id, double transferFee, double exchangeFee) {
-        this.name = name;
-        this.id = id;
-        this.transferFee = transferFee;
-        this.exchangeFee = exchangeFee;
-    }
-
     public static Bank createBank(String name, String id, double transferFee, double exchangeFee) {
         try {
             final Connection conn = Database.getConnection();
@@ -58,6 +51,14 @@ public class Bank {
             return null;
         }
     }
+
+    public Bank(String name, String id, double transferFee, double exchangeFee) {
+        this.name = name;
+        this.id = id;
+        this.transferFee = transferFee;
+        this.exchangeFee = exchangeFee;
+    }
+
     public void setTransferFee(double newFee) {
         this.transferFee = newFee;
     }
