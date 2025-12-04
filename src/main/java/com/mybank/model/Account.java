@@ -109,7 +109,7 @@ public class Account {
             stmt.setString(2, id);
             stmt.setString(3, bankId);
             stmt.executeUpdate();
-            //this.balance = newBalance;
+            this.balance = newBalance;
             stmt.close();
             conn.close();
             return true;

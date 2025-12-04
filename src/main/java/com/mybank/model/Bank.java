@@ -43,9 +43,8 @@ public class Bank {
             stmt.setDouble(3, transferFee);
             stmt.setDouble(4, exchangeFee);
             int rowsAffected  = stmt.executeUpdate();
-            //stmt.close();
-            //conn.close();
-
+            stmt.close();
+            conn.close();
             if(rowsAffected > 0) {
                 return new Bank(name, id, transferFee, exchangeFee);
             }
@@ -56,6 +55,7 @@ public class Bank {
             e.printStackTrace(System.err);
             return null;
         }
+
     }
 
     public Bank(String name, String id, double transferFee, double exchangeFee) {
@@ -65,7 +65,7 @@ public class Bank {
         this.exchangeFee = exchangeFee;
     }
 
-    public static boolean setTransferFee(double newFee,String bankID) {
+    public boolean setTransferFee(double newFee) {
         try {
             final Connection conn = Database.getConnection();
             final PreparedStatement stmt = conn.prepareStatement("""
@@ -74,9 +74,9 @@ public class Bank {
                     WHERE id = ?;
                     """);
             stmt.setDouble(1, newFee);
-            stmt.setString(2, bankID);
+            stmt.setString(2, id);
             stmt.executeUpdate();
-            //this.transferFee = newFee;
+            this.transferFee = newFee;
             stmt.close();
             conn.close();
             return true;
@@ -86,7 +86,7 @@ public class Bank {
         }
     }
 
-    public static boolean setExchangeFee(double newFee,String bankID) {
+    public boolean setExchangeFee(double newFee) {
         try {
             final Connection conn = Database.getConnection();
             final PreparedStatement stmt = conn.prepareStatement("""
@@ -95,9 +95,9 @@ public class Bank {
                     WHERE id = ?;
                     """);
             stmt.setDouble(1, newFee);
-            stmt.setString(2, bankID);
+            stmt.setString(2, id);
             stmt.executeUpdate();
-            //this.exchangeFee = newFee;
+            this.exchangeFee = newFee;
             stmt.close();
             conn.close();
             return true;
@@ -106,7 +106,6 @@ public class Bank {
             return false;
         }
     }
-
     public double getTransferFee() {
         return transferFee;
     }

@@ -4,10 +4,7 @@ import com.mybank.model.Account;
 import com.mybank.model.Bank;
 import com.mybank.service.Database;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     private static final Scanner scanner = new Scanner(System.in);
@@ -45,7 +42,7 @@ public class Main {
             }
 
             switch (action) {
-                case 1:
+                case 1: {
                     System.out.print("請註冊銀行ID: ");
                     final String bankID = scanner.next();
                     if (banks.stream().anyMatch(bank -> bankID.equals(bank.id))) {
@@ -71,40 +68,49 @@ public class Main {
                     }
                     banks.add(newBank);
                     break;
-                case 2:
+                }
+                case 2:{
                     for (final Bank bank : banks) {
                         System.out.printf("(%s) %s\n", bank.id, bank.name);
                     }
                     System.out.print("請選擇銀行: ");
-                    final String bankId1 = scanner.next();
-                    if (banks.stream().noneMatch(bank -> bankId1.equals(bank.id))) {
+                    final String bankId = scanner.next();
+                    Bank selectedBank = banks.stream()
+                            .filter(b -> bankId.equals(b.id))
+                            .findFirst()
+                            .orElse(null);
+                    if (selectedBank == null) {
                         System.out.println("無效的選擇。");
-                        continue;
                     }
-                    System.out.println("請輸入換匯費率: ");
-                    final float exchangeFee1 = scanner.nextFloat();
-                    if(Bank.setExchangeFee(exchangeFee1,bankId1)){
+                    else {
+                        System.out.println("請輸入換匯費率: ");
+                        final float exchangeFee = scanner.nextFloat();
+                        selectedBank.setExchangeFee(exchangeFee);
                         System.out.println("設定完成");
                     }
-                    else System.out.println("設定失敗");
                     break;
-                case 3:
+                }
+                case 3: {
                     for (final Bank bank : banks) {
                         System.out.printf("(%s) %s\n", bank.id, bank.name);
                     }
                     System.out.print("請選擇銀行: ");
-                    final String bankId2 = scanner.next();
-                    if (banks.stream().noneMatch(bank -> bankId2.equals(bank.id))) {
+                    final String bankId = scanner.next();
+                    Bank selectedBank = banks.stream()
+                            .filter(b -> bankId.equals(b.id))
+                            .findFirst()
+                            .orElse(null);
+                    if (selectedBank == null) {
                         System.out.println("無效的選擇。");
-                        continue;
                     }
-                    System.out.println("請輸入轉帳費率: ");
-                    final float transferFee1 = scanner.nextFloat();
-                    if(Bank.setTransferFee(transferFee1,bankId2)){
+                    else {
+                        System.out.println("請輸入換匯費率: ");
+                        final float transferFee = scanner.nextFloat();
+                        selectedBank.setTransferFee(transferFee);
                         System.out.println("設定完成");
                     }
-                    else System.out.println("設定失敗");
                     break;
+                }
                 case 4:
                     break;
                 case 5:
