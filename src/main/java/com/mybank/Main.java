@@ -4,7 +4,9 @@ import com.mybank.model.Account;
 import com.mybank.model.Bank;
 import com.mybank.service.Database;
 
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
+import java.util.Scanner;
 
 public class Main {
     private static final Scanner scanner = new Scanner(System.in);
@@ -112,8 +114,48 @@ public class Main {
                     System.out.println("設定完成");
                     break;
                 }
-                case 4:
+                case 4: {
+                    for (final Bank bank : banks) {
+                        System.out.printf("(%s) %s\n", bank.id, bank.name);
+                    }
+                    System.out.print("請選擇銀行: ");
+                    final String bankId = scanner.next();
+                    if (banks.stream().noneMatch(bank -> bankId.equals(bank.id))) {
+                        System.out.println("無效的選擇。");
+                        continue;
+                    }
+
+                    final List<Account> accList = accounts.stream()
+                            .filter(a -> bankId.equals(a.bankId))
+                            .toList();
+                    if (accList.isEmpty()) {
+                        System.out.println("這個銀行下沒有用戶。");
+                        continue;
+                    }
+
+                    for (int i = 0; i < accList.size(); i++) {
+                        final Account acc = accList.get(i);
+                        System.out.printf("%d. %s - %s\n", i + 1, acc.id, acc.name);
+                    }
+                    System.out.print("請選擇帳號: ");
+                    final int index = scanner.nextInt();
+                    if (index < 1 || index > accList.size()) {
+                        System.out.println("無效的選擇。");
+                        continue;
+                    }
+
+                    System.out.print("請輸入金額: ");
+                    final int balance = scanner.nextInt();
+                    final Account acc = accList.get(index - 1);
+                    final boolean result = acc.setBalance(balance);
+                    if (!result) {
+                        System.out.println("帳戶金額設定失敗。");
+                        continue;
+                    }
+
+                    System.out.println("帳戶金額設定成功。");
                     break;
+                }
                 case 5:
                     isAdmin = false;
                     break;
