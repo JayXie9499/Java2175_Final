@@ -31,12 +31,12 @@ public class Main {
 
     private static void adminMenu() {
         while (isAdmin) {
-            System.out.println("1.創建銀行");
-            System.out.println("2.設定換匯費率");
-            System.out.println("3.設定轉帳費率");
-            System.out.println("4.設定帳戶金額");
-            System.out.println("5.登出\n");
-            System.out.print("請輸入操作模式: ");
+            System.out.println("1. 創建銀行");
+            System.out.println("2. 設定換匯費率");
+            System.out.println("3. 設定轉帳費率");
+            System.out.println("4. 設定帳戶金額");
+            System.out.println("5. 登出\n");
+            System.out.print("選擇動作: ");
 
             final int action = scanner.nextInt();
             if (action < 1 || action > 5) {
