@@ -21,7 +21,8 @@ public class Database {
                     """);
             stmt.executeUpdate("""
                     CREATE TABLE IF NOT EXISTS accounts (
-                        id TEXT UNIQUE NOT NULL,
+                        id TEXT PRIMARY KEY,
+                        userId TEXT NOT NULL,
                         name TEXT NOT NULL,
                         hashedPwd TEXT NOT NULL,
                         balance INTEGER DEFAULT 0,
