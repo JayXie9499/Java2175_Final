@@ -152,12 +152,4 @@ public class Account {
     public int getBalance() {
         return balance;
     }
-
-    /*public boolean withdraw(int amount) {
-        if (balance < amount) {
-            return false;
-        }
-
-        return setBalance(balance - amount);
-    }*/
 }
