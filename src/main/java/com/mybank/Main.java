@@ -124,10 +124,10 @@ public class Main {
                         continue;
                     }
 
-                    System.out.print("請輸入欲換取數量: ");
+                    System.out.print("請輸入欲換取金額: ");
                     final int amount = scanner.nextInt();
                     if (amount < 1) {
-                        System.out.println("無效的數量。");
+                        System.out.println("無效的金額。");
                         pause();
                         continue;
                     }
