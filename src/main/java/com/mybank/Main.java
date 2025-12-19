@@ -148,7 +148,7 @@ public class Main {
                         continue;
                     }
 
-                    System.out.println("換匯成功");
+                    System.out.println("換匯成功。");
                     pause();
                     break;
                 }
