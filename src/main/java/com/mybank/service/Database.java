@@ -89,6 +89,18 @@ public class Database {
                         exchangeRate REAL NOT NULL
                     )
                     """);
+            stmt.executeUpdate("""
+                    CREATE TABLE IF NOT EXISTS wallets (
+                        id INTEGER PRIMARY KEY,
+                        accountId TEXT NOT NULL,
+                        currencyId INTEGER NOT NULL,
+                        balance REAL DEFAULT 0,
+                    
+                        FOREIGN KEY (accountId) REFERENCES accounts(id),
+                        FOREIGN KEY (currencyId) REFERENCES currencies(id),
+                        UNIQUE(accountId, currencyId)
+                    )
+                    """);
         } catch (SQLException e) {
             e.printStackTrace(System.err);
         }
