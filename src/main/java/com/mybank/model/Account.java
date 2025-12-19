@@ -185,7 +185,7 @@ public class Account {
                         VALUES (?, ?, ?)
                         ON CONFLICT (accountId, currencyId)
                         DO UPDATE SET balance = balance + ?
-                        """, new Object[]{id, currency.id, exchangedAmount}),
+                        """, new Object[]{id, currency.id, exchangedAmount, exchangedAmount}),
                 new SqlCommand("""
                         UPDATE accounts
                         SET balance = balance - ?
