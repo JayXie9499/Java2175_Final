@@ -61,7 +61,7 @@ public class Main {
             System.out.print("選擇動作: ");
 
             final int action = scanner.nextInt();
-            if (action < 1 || action > 5) {
+            if (action < 1 || action > 3) {
                 System.out.println("無效的選擇。");
                 pause();
                 continue;
