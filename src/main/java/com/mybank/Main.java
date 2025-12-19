@@ -2,12 +2,14 @@ package com.mybank;
 
 import com.mybank.model.Account;
 import com.mybank.model.Bank;
+import com.mybank.model.Currency;
 import com.mybank.service.Database;
 
 import java.util.*;
 
 public class Main {
     private static final Scanner scanner = new Scanner(System.in);
+    private static List<Currency> currencies;
     private static List<Bank> banks;
     private static List<Account> accounts;
     private static Account account;
@@ -15,6 +17,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         Database.init();
+        currencies = Currency.getCurrencies();
         banks = Bank.getBanks();
         for (Bank bank : banks) {
             accounts.addAll(Account.getAccounts(bank));
