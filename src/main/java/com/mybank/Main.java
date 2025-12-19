@@ -19,6 +19,7 @@ public class Main {
         Database.init();
         currencies = Currency.getCurrencies();
         banks = Bank.getBanks();
+        accounts = new ArrayList<>();
         for (Bank bank : banks) {
             accounts.addAll(Account.getAccounts(bank));
         }
