@@ -28,7 +28,7 @@ public class Database {
                     }
                 }
 
-                stmt.executeQuery();
+                stmt.executeUpdate();
                 stmt.close();
             }
             conn.commit();
