@@ -9,8 +9,8 @@ import java.util.List;
 public class Bank {
     public final String name;
     public final String id;
-    private double transferFee;
-    private double exchangeFee;
+    private double transferFeeRate;
+    private double exchangeFeeRate;
 
     public static List<Bank> getBanks() throws SQLException {
         final List<Bank> banks = new ArrayList<>();
@@ -20,9 +20,9 @@ public class Bank {
         while (rs.next()) {
             final String name = rs.getString("name");
             final String id = rs.getString("id");
-            final double transferFee = rs.getDouble("transferFee");
-            final double exchangeFee = rs.getDouble("exchangeFee");
-            final Bank bank = new Bank(name, id, transferFee, exchangeFee);
+            final double transferFeeRate = rs.getDouble("transferFeeRate");
+            final double exchangeFeeRate = rs.getDouble("exchangeFeeRate");
+            final Bank bank = new Bank(name, id, transferFeeRate, exchangeFeeRate);
             banks.add(bank);
         }
         rs.close();
@@ -31,22 +31,22 @@ public class Bank {
         return banks;
     }
 
-    public static Bank createBank(String name, String id, double transferFee, double exchangeFee) {
+    public static Bank createBank(String name, String id, double transferFeeRate, double exchangeFeeRate) {
         try {
             final Connection conn = Database.getConnection();
             final PreparedStatement stmt = conn.prepareStatement("""
-                    INSERT INTO banks (name, id, transferFee, exchangeFee)
+                    INSERT INTO banks (name, id, transferFeeRate, exchangeFeeRate)
                     VALUES (?, ?, ?, ?);
                     """);
             stmt.setString(1, name);
             stmt.setString(2, id);
-            stmt.setDouble(3, transferFee);
-            stmt.setDouble(4, exchangeFee);
+            stmt.setDouble(3, transferFeeRate);
+            stmt.setDouble(4, exchangeFeeRate);
             final int rowsAffected = stmt.executeUpdate();
             stmt.close();
             conn.close();
             if (rowsAffected > 0) {
-                return new Bank(name, id, transferFee, exchangeFee);
+                return new Bank(name, id, transferFeeRate, exchangeFeeRate);
             }
             return null;
         } catch (Exception e) {
@@ -56,25 +56,25 @@ public class Bank {
 
     }
 
-    public Bank(String name, String id, double transferFee, double exchangeFee) {
+    public Bank(String name, String id, double transferFeeRate, double exchangeFeeRate) {
         this.name = name;
         this.id = id;
-        this.transferFee = transferFee;
-        this.exchangeFee = exchangeFee;
+        this.transferFeeRate = transferFeeRate;
+        this.exchangeFeeRate = exchangeFeeRate;
     }
 
-    public boolean setTransferFee(double newFee) {
+    public boolean setTransferFeeRate(double newFee) {
         try {
             final Connection conn = Database.getConnection();
             final PreparedStatement stmt = conn.prepareStatement("""
                     UPDATE banks
-                    SET transferFee = ?
+                    SET transferFeeRate = ?
                     WHERE id = ?;
                     """);
             stmt.setDouble(1, newFee);
             stmt.setString(2, id);
             stmt.executeUpdate();
-            this.transferFee = newFee;
+            this.transferFeeRate = newFee;
             stmt.close();
             conn.close();
             return true;
@@ -84,18 +84,18 @@ public class Bank {
         }
     }
 
-    public boolean setExchangeFee(double newFee) {
+    public boolean setExchangeFeeRate(double newFee) {
         try {
             final Connection conn = Database.getConnection();
             final PreparedStatement stmt = conn.prepareStatement("""
                     UPDATE banks
-                    SET exchangeFee = ?
+                    SET exchangeFeeRate = ?
                     WHERE id = ?;
                     """);
             stmt.setDouble(1, newFee);
             stmt.setString(2, id);
             stmt.executeUpdate();
-            this.exchangeFee = newFee;
+            this.exchangeFeeRate = newFee;
             stmt.close();
             conn.close();
             return true;
@@ -105,11 +105,11 @@ public class Bank {
         }
     }
 
-    public double getTransferFee() {
-        return transferFee;
+    public double getTransferFeeRate() {
+        return transferFeeRate;
     }
 
-    public double getExchangeFee() {
-        return exchangeFee;
+    public double getExchangeFeeRate() {
+        return exchangeFeeRate;
     }
 }

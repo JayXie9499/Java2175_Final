@@ -100,6 +100,14 @@ public class Main {
                         continue;
                     }
 
+                    final double transferFeeRate = account.bank.id.equals(target.bank.id) ? 0 : account.bank.getTransferFeeRate();
+                    final int transferFee = (int) Math.ceil(amount * transferFeeRate);
+                    if (amount + transferFee > account.getBalance()) {
+                        System.out.println("你的餘額不足。");
+                        pause();
+                        continue;
+                    }
+
                     final boolean transaction = account.transfer(target, amount);
                     if (!transaction) {
                         System.out.println("轉帳失敗。");
@@ -132,16 +140,15 @@ public class Main {
                         continue;
                     }
 
-                    final Currency currency = currencies.get(index);
-                    final int balance = account.getBalance();
-                    final int cost = (int) Math.ceil(amount / currency.exchangeRate);
-                    if (cost > balance) {
+                    final int exchangeFee = (int) Math.ceil(amount * account.bank.getExchangeFeeRate());
+                    if (amount + exchangeFee > account.getBalance()) {
                         System.out.println("你的餘額不足。");
                         pause();
                         continue;
                     }
 
-                    final boolean transaction = account.setBalance(balance - cost);
+                    final Currency currency = currencies.get(index - 1);
+                    final boolean transaction = account.exchange(currency, amount);
                     if (!transaction) {
                         System.out.println("換匯失敗。");
                         pause();
@@ -237,14 +244,14 @@ public class Main {
                     }
 
                     System.out.println("請輸入換匯費率: ");
-                    final float exchangeFee = scanner.nextFloat();
-                    if (exchangeFee < 0) {
+                    final float exchangeFeeRate = scanner.nextFloat();
+                    if (exchangeFeeRate < 0) {
                         System.out.println("無效的費率。");
                         pause();
                         continue;
                     }
 
-                    selectedBank.setExchangeFee(exchangeFee);
+                    selectedBank.setExchangeFeeRate(exchangeFeeRate);
                     System.out.println("設定完成。");
                     pause();
                     break;
@@ -266,14 +273,14 @@ public class Main {
                     }
 
                     System.out.println("請輸入轉帳費率: ");
-                    final float transferFee = scanner.nextFloat();
-                    if (transferFee < 0) {
+                    final float transferFeeRate = scanner.nextFloat();
+                    if (transferFeeRate < 0) {
                         System.out.println("無效的費率。");
                         pause();
                         continue;
                     }
 
-                    selectedBank.setTransferFee(transferFee);
+                    selectedBank.setTransferFeeRate(transferFeeRate);
                     System.out.println("設定完成。");
                     pause();
                     break;

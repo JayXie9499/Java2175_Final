@@ -66,8 +66,8 @@ public class Database {
                     CREATE TABLE IF NOT EXISTS banks (
                         id TEXT PRIMARY KEY,
                         name TEXT UNIQUE NOT NULL,
-                        transferFee REAL NOT NULL,
-                        exchangeFee REAL NOT NULL
+                        transferFeeRate REAL NOT NULL,
+                        exchangeFeeRate REAL NOT NULL
                     );
                     """);
             stmt.executeUpdate("""

@@ -154,20 +154,48 @@ public class Account {
     }
 
     public boolean transfer(Account target, int amount) {
-        final int originalBalance = getBalance();
-        final double transferFee = bank.id.equals(target.bank.id) ? 0 : bank.getTransferFee();
+        final double transferFee = bank.id.equals(target.bank.id) ? 0 : bank.getTransferFeeRate();
         final int amountWithFee = amount + (int) (amount * transferFee);
-        final boolean selfTransaction = setBalance(originalBalance - amountWithFee);
-        if (!selfTransaction) {
-            return false;
+        final boolean transaction = Database.executeMultiple(
+                new SqlCommand("""
+                        UPDATE accounts
+                        SET balance = ?
+                        WHERE id = ? AND bankId = ?
+                        """, new Object[]{getBalance() - amountWithFee, id, bank.id}),
+                new SqlCommand("""
+                        UPDATE accounts
+                        SET balance = ?
+                        WHERE id = ? AND bankId = ?
+                        """, new Object[]{target.getBalance() + amount, target.id, target.bank.id})
+        );
+        if (transaction) {
+            balance -= amountWithFee;
+            target.balance += amount;
         }
 
-        final boolean targetTransaction = target.setBalance(target.getBalance() + amount);
-        if (!targetTransaction) {
-            setBalance(originalBalance);
-            return false;
+        return transaction;
+    }
+
+    public boolean exchange(Currency currency, int amount) {
+        final int amountWithFee = amount + (int) Math.ceil(amount * bank.getExchangeFeeRate());
+        final double exchangedAmount = amount * currency.exchangeRate;
+        final boolean transaction = Database.executeMultiple(
+                new SqlCommand("""
+                        INSERT INTO wallets (accountId, currencyId, balance)
+                        VALUES (?, ?, ?)
+                        ON CONFLICT (accountId, currencyId)
+                        DO UPDATE SET balance = balance + ?
+                        """, new Object[]{id, currency.id, exchangedAmount}),
+                new SqlCommand("""
+                        UPDATE accounts
+                        SET balance = balance - ?
+                        WHERE id = ? AND bankId = ?
+                        """, new Object[]{amountWithFee, id, bank.id})
+        );
+        if (transaction) {
+            balance -= amountWithFee;
         }
 
-        return true;
+        return transaction;
     }
 }
