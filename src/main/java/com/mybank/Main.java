@@ -5,6 +5,7 @@ import com.mybank.model.Bank;
 import com.mybank.model.Currency;
 import com.mybank.service.Database;
 
+import java.security.spec.RSAOtherPrimeInfo;
 import java.util.*;
 
 public class Main {
@@ -55,6 +56,8 @@ public class Main {
     private static void userMenu() {
         while (account != null) {
             resetCursor();
+            final int balance = account.getBalance();
+            System.out.println("餘額 : " + balance);
             System.out.println("1. 轉帳");
             System.out.println("2. 換匯");
             System.out.println("3. 登出\n");
