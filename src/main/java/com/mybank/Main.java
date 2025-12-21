@@ -424,7 +424,7 @@ public class Main {
                 System.out.print("輸入密碼: ");
                 final String pwd = scanner.next();
                 final Account acc = accounts.stream()
-                        .filter(a -> bankId.equals(a.bank.id) && id.equals(a.id))
+                        .filter(a -> bankId.equals(a.bank.id) && id.equals(a.userId))
                         .findFirst()
                         .orElse(null);
                 if (acc == null) {
