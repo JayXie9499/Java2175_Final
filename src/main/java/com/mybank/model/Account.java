@@ -36,8 +36,8 @@ public class Account {
             final String name = rs.getString("name");
             final String hashedPwd = rs.getString("hashedPwd");
             final int balance = rs.getInt("balance");
-            final Account acc = new Account(id, userId, name, bank, hashedPwd);
-            acc.setBalance(balance);
+            final Account acc = new Account(id, userId, name, bank, hashedPwd,balance);
+            //acc.setBalance(balance);
             accounts.add(acc);
         }
         rs.close();
@@ -77,7 +77,7 @@ public class Account {
                 }
             }
 
-            return new Account(id, userId, name, bank, hashedPwd);
+            return new Account(id, userId, name, bank, hashedPwd,0);
         } catch (Exception e) {
             e.printStackTrace(System.err);
             return null;
@@ -119,12 +119,13 @@ public class Account {
         }
     }
 
-    private Account(String id, String userId, String name, Bank bank, String hashedPwd) {
+    private Account(String id, String userId, String name, Bank bank, String hashedPwd,int balance) {
         this.id = id;
         this.userId = userId;
         this.name = name;
         this.bank = bank;
         this.hashedPwd = hashedPwd;
+        this.balance = balance;
     }
 
     public boolean setBalance(int newBalance) {
